@@ -29,6 +29,7 @@
       {{ teaMaker.milk ? "Milk" : "No milk" }}
       {{ teaMaker.sugars < 1 ? "No " : teaMaker.sugars }} sugar
     </div>
+    <button @click="pickTeaMaker">Pick a tea maker!</button>
     <div>
       <button @click="clearTeaMakers">Clear</button>
       <button @click="resetRounds">Reset rounds</button>
@@ -66,16 +67,26 @@ const addTeaMaker = () => {
     teaMaker.milk = false;
   }
 };
-
+//clear tea maker array
 const clearTeaMakers = () => {
   teaMakers.value.splice(0);
 };
 
+// reset round for each tea maker
 const resetRounds = () => {
   teaMakers.value.forEach((teaMaker) => {
     teaMaker.teaRoundsMade = 0;
   });
 };
+
+const pickTeaMaker = () => {
+  // create new array of tea makers
+
+  // randomly select a teaMaker to make a round of tea
+
+  // pick teamaker with least rounds made
+
+}
 </script>
 
 <style lang="scss" scoped></style>
