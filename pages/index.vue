@@ -24,8 +24,14 @@
       </form>
       <button @click="addTeaMaker">Add a tea maker</button>
     </div>
+    <div v-for="(teaMaker, index) in teaMakers" :key="index">
+      {{ teaMaker.name }}
+      {{ teaMaker.milk ? "Milk" : "No milk" }}
+      {{ teaMaker.sugars < 1 ? "No " : teaMaker.sugars }} sugar
+    </div>
     <div>
-      <h2>{{ teaMaker.name }} has to make the tea</h2>
+      <button @click="clearTeaMakers">Clear</button>
+      <button @click="resetRounds">Reset rounds</button>
     </div>
   </div>
 </template>
@@ -36,25 +42,40 @@ const teaMakers = ref([]);
 const teaMaker = reactive({
   name: "",
   milk: false,
-  sugars: 0,
-  teaRoundsMade: 0
+  sugars: 0
 });
 
-const addTeaMaker = (teaMaker) => {
+let id = 0;
+
+const addTeaMaker = () => {
   if (teaMaker.value != "") {
-    // create array of object with tea maker name, sugar, milk, and tea rounds made
+    // create an object with tea maker's name, sugar, milk, and tea rounds made
     const teaMakerObject = {
-      id: "",
+      id: id++,
       name: teaMaker.name,
       sugars: teaMaker.sugars,
       milk: teaMaker.milk,
       teaRoundsMade: 0
     };
+    //push to teaMakers array
+    teaMakers.value.push(teaMakerObject);
+
+    //reset fields when someone has been added
+    teaMaker.name = "";
+    teaMaker.sugars = 0;
+    teaMaker.milk = false;
   }
-  //push to teaMakers array
 };
 
-console.log(teaMakers);
+const clearTeaMakers = () => {
+  teaMakers.value.splice(0);
+};
+
+const resetRounds = () => {
+  teaMakers.value.forEach((teaMaker) => {
+    teaMaker.teaRoundsMade = 0;
+  });
+};
 </script>
 
 <style lang="scss" scoped></style>
