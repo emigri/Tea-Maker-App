@@ -51,6 +51,16 @@
 <script setup>
 const teaMakers = ref([]);
 let selectedTeaMaker = ref("");
+import { watch } from "vue";
+
+watch(
+  teaMakers,
+  (newTeaMakers) => {
+    // Update localStorage whenever teaMakers array changes
+    localStorage.setItem("teaMakers", JSON.stringify(newTeaMakers));
+  },
+  { deep: true } // Ensure deep watching for changes inside objects
+);
 
 const teaMaker = reactive({
   name: "",
@@ -101,18 +111,26 @@ const pickTeaMaker = () => {
     selectedTeaMaker.value = "No tea makers available";
     return;
   }
+  // Find the minimum number of tea rounds made
+  const minRounds = Math.min(
+    ...teaMakers.value.map((teaMaker) => teaMaker.teaRoundsMade)
+  );
 
-  // randomly select a teaMaker from the list
+  // Filter tea makers who have made the minimum number of rounds
+  const leastPickedTeaMakers = teaMakers.value.filter(
+    (teaMaker) => teaMaker.teaRoundsMade === minRounds
+  );
+
+  // Randomly select one from the least-picked tea makers
   let chosenTeaMaker =
-    teaMakers.value[Math.floor(Math.random() * teaMakers.value.length)];
+    leastPickedTeaMakers[
+      Math.floor(Math.random() * leastPickedTeaMakers.length)
+    ];
 
   selectedTeaMaker.value = chosenTeaMaker.name;
 
   // update how many teas have been made
   chosenTeaMaker.teaRoundsMade++;
-
-  // Update localStorage with the modified teaMakers array
-  localStorage.setItem("teaMakers", JSON.stringify(teaMakers.value));
 };
 
 onMounted(() => {
