@@ -1,42 +1,49 @@
 <template>
   <div class="h-screen w-screen flex flex-col justify-center items-center">
-    <div>
-      <h1 class="text-red-600 mb">Tea Maker App</h1>
-    </div>
-    <div>
-      <form>
-        <input
-          type="text"
-          v-model="teaMaker.name"
-          placeholder="Tea maker name"
-        />
-        <input type="checkbox" v-model="teaMaker.milk" name="milk" id="milk" />
-        <label for="milk">Milk</label>
-        <input
-          type="number"
-          v-model="teaMaker.sugars"
-          max="5"
-          min="0"
-          name="sugar"
-          id="sugar"
-        />
-        <label for="sugar">Sugar</label>
-      </form>
-      <button class="btn" @click="addTeaMaker">Add a tea maker</button>
-    </div>
-    <div v-for="(teaMaker, index) in teaMakers" :key="index">
-      {{ teaMaker.name }} -
-      {{ teaMaker.milk ? "milk" : "no milk" }}
-      {{ teaMaker.sugars < 1 ? "no " : teaMaker.sugars }} sugar
-      {{ teaMaker.teaRoundsMade }} rounds made
-    </div>
-    <div>
-      <button class="btn" @click="pickTeaMaker">Pick a tea maker!</button>
-      <button class="btn" @click="clearTeaMakers">Clear</button>
-      <button class="btn" @click="resetRounds">Reset rounds</button>
-    </div>
-    <div>
-      <p>{{ selectedTeaMaker }} turn to make a round</p>
+    <div class="rounded-lg bg-emerald-300 w-1/2 text-center">
+      <div>
+        <h1 class="text-red-600 mb">Tea Maker App</h1>
+      </div>
+      <div>
+        <form>
+          <input
+            type="text"
+            v-model="teaMaker.name"
+            placeholder="Tea maker name"
+          />
+          <input
+            type="checkbox"
+            v-model="teaMaker.milk"
+            name="milk"
+            id="milk"
+          />
+          <label for="milk">Milk</label>
+          <input
+            type="number"
+            v-model="teaMaker.sugars"
+            max="5"
+            min="0"
+            name="sugar"
+            id="sugar"
+          />
+          <label for="sugar">Sugar</label>
+        </form>
+        <button class="btn" @click="addTeaMaker">Add a tea maker</button>
+      </div>
+      <div v-for="(teaMaker, index) in teaMakers" :key="index">
+        {{ teaMaker.name }} -
+        {{ teaMaker.milk ? "milk" : "no milk" }}
+        {{ teaMaker.sugars < 1 ? "no " : teaMaker.sugars }} sugar
+        {{ teaMaker.teaRoundsMade }} rounds made
+      </div>
+      <div class="flex content-between">
+        <button class="btn" @click="pickTeaMaker">Pick a tea maker!</button>
+        <button class="btn" @click="clearTeaMakers">Clear</button>
+        <button class="btn" @click="resetRounds">Reset rounds</button>
+      </div>
+      <div>
+        <p>{{ selectedTeaMaker }} turn to make a round</p>
+      </div>
     </div>
   </div>
 </template>
@@ -94,9 +101,13 @@ const pickTeaMaker = () => {
   chosenTeaMaker.teaRoundsMade++;
   // choose based on how many rounds they have made
 
+
   // add teamaker to local Storage
   localStorage.setItem("teaMaker", JSON.stringify(chosenTeaMaker));
   console.log(localStorage);
+  localStorage.getItem("teaMaker")
+  // keep in local storage until cleared
+
 };
 </script>
 
