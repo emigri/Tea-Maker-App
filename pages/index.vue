@@ -1,11 +1,11 @@
 <template>
   <div class="h-screen w-screen flex flex-col justify-center items-center">
-    <div class="rounded-lg bg-emerald-300 w-1/2 text-center">
-      <div>
-        <h1 class="text-red-600 mb">Tea Maker App</h1>
-      </div>
-      <div>
-        <form>
+    <div
+      class="rounded-lg bg-rose-200 w-auto h-auto p-10 content-center text-center shadow-lg"
+    >
+      <h1 class="text-red-600 text-3xl font-bold mb-6">Tea Maker App</h1>
+      <div class="mb-6">
+        <form class="flex w-full justify-center">
           <input
             type="text"
             v-model="teaMaker.name"
@@ -16,6 +16,7 @@
             v-model="teaMaker.milk"
             name="milk"
             id="milk"
+            class="ml-3"
           />
           <label for="milk">Milk</label>
           <input
@@ -25,33 +26,38 @@
             min="0"
             name="sugar"
             id="sugar"
+            class="ml-3"
           />
           <label for="sugar">Sugar</label>
         </form>
-        <button class="btn" @click="addTeaMaker">Add a tea maker</button>
+        <button class="btn mt-4" @click="addTeaMaker">Add a tea maker</button>
       </div>
-      <div v-for="(teaMaker, index) in teaMakers" :key="index">
+      <div v-for="(teaMaker, index) in teaMakers" :key="index" class="mb-6">
         {{ teaMaker.name }} -
         {{ teaMaker.milk ? "milk" : "no milk" }}
         {{ teaMaker.sugars < 1 ? "no " : teaMaker.sugars }} sugar
         {{ teaMaker.teaRoundsMade }} rounds made
       </div>
-      <div class="flex content-between">
+      <div class="flex w-full justify-between">
         <button class="btn" @click="pickTeaMaker">Pick a tea maker!</button>
-        <button class="btn" @click="clearTeaMakers">Clear</button>
+        <button class="btn mx-5" @click="clearTeaMakers">Clear</button>
         <button class="btn" @click="resetRounds">Reset rounds</button>
       </div>
       <div>
-        <p>{{ selectedTeaMaker }}</p>
+        <p>
+          {{ selectedTeaMaker
+          }}{{ selectedTeaMaker !== "" ? "'s turn to make tea" : "" }}
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { watch } from "vue";
+
 const teaMakers = ref([]);
 let selectedTeaMaker = ref("");
-import { watch } from "vue";
 
 watch(
   teaMakers,
@@ -90,11 +96,14 @@ const addTeaMaker = () => {
     teaMaker.name = "";
     teaMaker.sugars = 0;
     teaMaker.milk = false;
+  } else {
+    selectedTeaMaker.value = "No tea makers available";
   }
 };
 //clear tea maker array
 const clearTeaMakers = () => {
   teaMakers.value.splice(0);
+  selectedTeaMaker.value = "";
   localStorage.clear();
 };
 
@@ -105,6 +114,7 @@ const resetRounds = () => {
     localStorage.setItem("teaMakers", JSON.stringify(teaMakers.value));
   });
 };
+
 const pickTeaMaker = () => {
   // Ensure there are tea makers available
   if (teaMakers.value.length === 0) {
@@ -143,6 +153,6 @@ onMounted(() => {
 
 <style lang="css" scoped>
 .btn {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full;
+  @apply bg-gray-400 hover:bg-blue-700 text-black py-2 px-4 rounded-full;
 }
 </style>
