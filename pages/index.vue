@@ -42,7 +42,7 @@
         <button class="btn" @click="resetRounds">Reset rounds</button>
       </div>
       <div>
-        <p>{{ selectedTeaMaker }} turn to make a round</p>
+        <p>{{ selectedTeaMaker }}</p>
       </div>
     </div>
   </div>
@@ -70,9 +70,12 @@ const addTeaMaker = () => {
       milk: teaMaker.milk,
       teaRoundsMade: 0
     };
+
     //push to teaMakers array
     teaMakers.value.push(teaMakerObject);
 
+    // add teamaker to local Storage
+    localStorage.setItem("teaMakers", JSON.stringify(teaMakers.value));
     //reset fields when someone has been added
     teaMaker.name = "";
     teaMaker.sugars = 0;
@@ -82,15 +85,23 @@ const addTeaMaker = () => {
 //clear tea maker array
 const clearTeaMakers = () => {
   teaMakers.value.splice(0);
+  localStorage.clear();
 };
 
 // reset round for each tea maker
 const resetRounds = () => {
   teaMakers.value.forEach((teaMaker) => {
     teaMaker.teaRoundsMade = 0;
+    localStorage.setItem("teaMakers", JSON.stringify(teaMakers.value));
   });
 };
 const pickTeaMaker = () => {
+  // Ensure there are tea makers available
+  if (teaMakers.value.length === 0) {
+    selectedTeaMaker.value = "No tea makers available";
+    return;
+  }
+
   // randomly select a teaMaker from the list
   let chosenTeaMaker =
     teaMakers.value[Math.floor(Math.random() * teaMakers.value.length)];
@@ -99,16 +110,17 @@ const pickTeaMaker = () => {
 
   // update how many teas have been made
   chosenTeaMaker.teaRoundsMade++;
-  // choose based on how many rounds they have made
 
-
-  // add teamaker to local Storage
-  localStorage.setItem("teaMaker", JSON.stringify(chosenTeaMaker));
-  console.log(localStorage);
-  localStorage.getItem("teaMaker")
-  // keep in local storage until cleared
-
+  // Update localStorage with the modified teaMakers array
+  localStorage.setItem("teaMakers", JSON.stringify(teaMakers.value));
 };
+
+onMounted(() => {
+  const storedTeaMakers = localStorage.getItem("teaMakers");
+  if (storedTeaMakers) {
+    teaMakers.value = JSON.parse(storedTeaMakers);
+  }
+});
 </script>
 
 <style lang="css" scoped>
