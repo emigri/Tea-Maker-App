@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-screen w-screen flex flex-col justify-center items-center">
     <div>
       <h1 class="text-red-600 mb">Tea Maker App</h1>
     </div>
@@ -22,23 +22,28 @@
         />
         <label for="sugar">Sugar</label>
       </form>
-      <button @click="addTeaMaker">Add a tea maker</button>
+      <button class="btn" @click="addTeaMaker">Add a tea maker</button>
     </div>
     <div v-for="(teaMaker, index) in teaMakers" :key="index">
-      {{ teaMaker.name }}
-      {{ teaMaker.milk ? "Milk" : "No milk" }}
-      {{ teaMaker.sugars < 1 ? "No " : teaMaker.sugars }} sugar
+      {{ teaMaker.name }} -
+      {{ teaMaker.milk ? "milk" : "no milk" }}
+      {{ teaMaker.sugars < 1 ? "no " : teaMaker.sugars }} sugar
+      {{ teaMaker.teaRoundsMade }} rounds made
     </div>
-    <button @click="pickTeaMaker">Pick a tea maker!</button>
     <div>
-      <button @click="clearTeaMakers">Clear</button>
-      <button @click="resetRounds">Reset rounds</button>
+      <button class="btn" @click="pickTeaMaker">Pick a tea maker!</button>
+      <button class="btn" @click="clearTeaMakers">Clear</button>
+      <button class="btn" @click="resetRounds">Reset rounds</button>
+    </div>
+    <div>
+      <p>{{ selectedTeaMaker }} turn to make a round</p>
     </div>
   </div>
 </template>
 
 <script setup>
 const teaMakers = ref([]);
+let selectedTeaMaker = ref("");
 
 const teaMaker = reactive({
   name: "",
@@ -78,15 +83,25 @@ const resetRounds = () => {
     teaMaker.teaRoundsMade = 0;
   });
 };
-
 const pickTeaMaker = () => {
-  // create new array of tea makers
+  // randomly select a teaMaker from the list
+  let chosenTeaMaker =
+    teaMakers.value[Math.floor(Math.random() * teaMakers.value.length)];
 
-  // randomly select a teaMaker to make a round of tea
+  selectedTeaMaker.value = chosenTeaMaker.name;
 
-  // pick teamaker with least rounds made
+  // update how many teas have been made
+  chosenTeaMaker.teaRoundsMade++;
+  // choose based on how many rounds they have made
 
-}
+  // add teamaker to local Storage
+  localStorage.setItem("teaMaker", JSON.stringify(chosenTeaMaker));
+  console.log(localStorage);
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+.btn {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full;
+}
+</style>
