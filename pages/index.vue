@@ -3,7 +3,7 @@
     <div
       class="rounded-lg bg-rose-200 w-auto h-auto p-10 content-center text-center shadow-lg"
     >
-      <h1 class="text-red-600 text-3xl font-bold mb-6">Tea Maker App</h1>
+      <h1 class="text-black-300 text-3xl font-bold mb-6">Tea Maker App</h1>
       <div class="mb-6">
         <form class="flex w-full justify-center">
           <input
@@ -153,6 +153,6 @@ onMounted(() => {
 
 <style lang="css" scoped>
 .btn {
-  @apply bg-gray-400 hover:bg-blue-700 text-black py-2 px-4 rounded-full;
+  @apply bg-gray-200 hover:bg-blue-300 text-black py-2 px-4 rounded-full;
 }
 </style>
