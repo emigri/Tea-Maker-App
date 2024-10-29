@@ -1,11 +1,13 @@
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center items-center">
+  <div
+    class="bg-[#349ea6] h-screen w-screen flex flex-col justify-center items-center"
+  >
     <div
-      class="rounded-lg bg-rose-200 w-auto h-auto p-10 content-center text-center shadow-lg"
+      class="rounded-lg bg-slate-50 w-auto h-auto p-10 content-center text-center shadow-2xl"
     >
       <h1 class="text-black-300 text-3xl font-bold mb-6">Tea Maker App</h1>
       <div class="mb-6">
-        <form class="flex w-full justify-center">
+        <form class=" flex w-full justify-center">
           <input
             type="text"
             v-model="teaMaker.name"
@@ -153,6 +155,6 @@ onMounted(() => {
 
 <style lang="css" scoped>
 .btn {
-  @apply bg-gray-200 hover:bg-blue-300 text-black py-2 px-4 rounded-full;
+  @apply bg-[#349ea6] hover:bg-[#88d5d8] text-white py-2 px-4 rounded-full shadow-lg;
 }
 </style>
